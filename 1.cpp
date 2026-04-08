@@ -12,7 +12,7 @@
 /*g++ -std=c++17 -o calculator 1.cpp
 ./calculator < input.txt*/
 
-// Убирает пробелы в начале и конце строки
+// Убирает пробелы в начале и конце строки, шоб getline и stoi не споткнулись
 static inline std::string trim(const std::string& s) {
     size_t start = 0;
     while (start < s.length() && std::isspace(s[start])) ++start;
@@ -38,7 +38,7 @@ public:
     Token(TokenType t, const std::string& txt) : type(t), text(txt) {}
 };
 
-// Лексический анализатор (разбивает строку на токены)
+// разбиватор строки на токены
 class Lexer {
     std::string input;
     size_t pos = 0;
@@ -73,7 +73,7 @@ public:
             if (pos < input.length() && (std::isalpha(input[pos]) || input[pos] == '_'))
                 throw std::runtime_error("Lexical Error");
 
-            // Проверка ведущих нулей
+            // Проверка передних нулей
             size_t dotPos = numStr.find('.');
             if (dotPos == std::string::npos) {
                 if (numStr.length() > 1 && numStr[0] == '0')
@@ -110,7 +110,7 @@ public:
     }
 };
 
-// Режим "только лексер" – выводит токены по одному на строку
+// Режим "только лексер" выводит токены по одному на строку
 std::string runLexer(const std::string& expression) {
     Lexer lexer(expression);
     std::string result;
@@ -235,7 +235,7 @@ public:
     ExprPtr clone() const override { return std::make_unique<BinaryOp>(op, left->clone(), right->clone()); }
 };
 
-// Узел математической функции (sin, cos, exp, ...)
+// Узел математической функции (sin, cos, exp, и др)
 class Function : public Expression {
 public:
     enum Func { Sin, Cos, Tan, Asin, Acos, Atan, Exp, Log, Sqrt };
@@ -274,7 +274,7 @@ public:
 };
 
 //----------------------------------------------------------------------
-// Реализация производных (вынесена после объявления всех классов)
+// Реализация производных
 //----------------------------------------------------------------------
 
 ExprPtr BinaryOp::derivative(const std::string& var) const {
