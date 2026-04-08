@@ -9,7 +9,8 @@
 #include <stdexcept>
 #include <algorithm>
 #include <limits>
-//g++ -std=c++17 -o calculator 1.cpp
+/*g++ -std=c++17 -o calculator 1.cpp
+./calculator < input.txt*/
 
 // Убирает пробелы в начале и конце строки
 static inline std::string trim(const std::string& s) {
